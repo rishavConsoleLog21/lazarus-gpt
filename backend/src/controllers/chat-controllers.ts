@@ -7,7 +7,7 @@ export const generateChatCompletion = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { message } = req.body;
+  const message = req.body;
   try {
     const user = await User.findById(res.locals.jwtData.id);
     if (!user) {
@@ -18,16 +18,19 @@ export const generateChatCompletion = async (
       role,
       content,
     }));
+    chats.push({ content: message, role: "user" });
+    user.chats.push({ content: message, role: "user" });
 
-    chats.push({ role: "user", content: message });
-    user.chats.push({ role: "user", content: message });
-
-    // Save the updated user data
+    // Send all chats with new one to OpenAI API
     const openai = configureOpenAI();
-    const chatCompletion = await openai.completions.create({
+    const chatCompletion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: chats,
+      chatCompletion: true,
     });
+    for await (const chunk of chatCompletion) {
+      process.stdout.write(chunk.choices[0]?.delta?.content || "");
+    }
     user.chats.push(chatCompletion.choices[0].message);
     await user.save();
     return res.status(200).json({ chats: user.chats });

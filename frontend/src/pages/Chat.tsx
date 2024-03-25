@@ -161,6 +161,7 @@ const Chat = () => {
           <input
             ref={inputRef}
             type="text"
+            placeholder="Ask me anything..."
             style={{
               width: "100%",
               backgroundColor: "transparent",

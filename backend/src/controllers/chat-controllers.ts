@@ -25,8 +25,8 @@ export const generateChatCompletion = async (
     // Send all chats with new one to OpenAI API
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_KEY,
-      organization: process.env.OPENAI_ORG_ID
-    })
+      organization: process.env.OPENAI_ORG_ID,
+    });
 
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-4",
@@ -34,7 +34,7 @@ export const generateChatCompletion = async (
       messages: chats,
       max_tokens: 75,
     });
-    console.log(chatCompletion)
+    console.log(chatCompletion);
     // for await (const chunk of chatCompletion) {
     //   process.stdout.write(chunk.choices[0]?.delta?.content || "");
     // }
@@ -62,6 +62,30 @@ export const sendChatsToUser = async (
       return res.status(401).send("Permissions didn't match");
     }
     return res.status(200).json({ message: "OK", chats: user.chats });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({ message: "ERROR", cause: error.message });
+  }
+};
+
+export const deleteChats = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //user token check
+    const user = await User.findById(res.locals.jwtData.id);
+    if (!user) {
+      return res.status(401).send("User not registered OR Token malfunctioned");
+    }
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      return res.status(401).send("Permissions didn't match");
+    }
+    //@ts-ignore
+    user.chats = [];
+    await user.save();
+    return res.status(200).json({ message: "OK" });
   } catch (error) {
     console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });

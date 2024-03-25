@@ -16,7 +16,8 @@ const Login = () => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     try {
-      // toast.loading("Logging in...", { toastId: "login" });
+      toast.loading("Logging in", { toastId: "login" });
+      toast.dismiss();
       await auth?.login(email, password);
       toast.success("Login successful!", { toastId: "login" });
     } catch (error) {
@@ -24,11 +25,11 @@ const Login = () => {
       toast.error("Login failed!", { toastId: "login" });
     }
   };
-  // useEffect(() => {
-  //   if (auth?.user) {
-  //     return navigate("/chat");
-  //   }
-  // }, [auth]);
+  useEffect(() => {
+    if (auth?.user) {
+      return navigate("/chat");
+    }
+  }, [auth]);
   return (
     <Box width={"100%"} height={"100%"} display="flex" flex={1}>
       <Box padding={8} mt={8} display={{ md: "flex", sm: "none", xs: "none" }}>

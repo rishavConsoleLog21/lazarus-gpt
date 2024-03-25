@@ -3,13 +3,14 @@ import { useAuth } from "../context/AuthContext";
 import { red } from "@mui/material/colors";
 import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from "react-icons/io";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   deleteUserChats,
   getUserChats,
   sendChatRequest,
 } from "../helpers/api.communicator";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 type Message = {
   role: "user" | "assistant";
@@ -18,6 +19,7 @@ type Message = {
 
 const Chat = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
@@ -62,6 +64,13 @@ const Chat = () => {
         });
     }
   }, [auth]);
+
+  useEffect(() => {
+    if (!auth?.user) {
+      return navigate("/login");
+    }
+  }, [auth]);
+
   return (
     <Box
       sx={{
@@ -112,12 +121,12 @@ const Chat = () => {
             {auth?.user?.name.split(" ")[1][0]}
           </Avatar>
           <Typography sx={{ mx: "auto", fontFamily: "sans-serif" }}>
-            LazarusGPT Assistant is here to help you.
+            Lazarus Assistant is here to help you.
           </Typography>
           <Typography
             sx={{ mx: "auto", fontFamily: "sans-serif", my: "auto", p: "auto" }}
           >
-            with any questions you may have. Feel free to ask anything!
+            Feel free to ask anything!
           </Typography>
           <Button
             onClick={handleDeleteChats}
@@ -158,7 +167,7 @@ const Chat = () => {
             fontFamily: "sans-serif",
           }}
         >
-          Lazarus GPT 3.5 Turbo
+          Lazarus GPT-4
         </Typography>
         <Box
           sx={{

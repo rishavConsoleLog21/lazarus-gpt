@@ -20,9 +20,16 @@ body {
   filter: invert(5%);
 }
 
+.image-openai {
+  filter: invert(100%);
+}
+
+.image-openai:hover {
+  filter: invert(0%);
+}
+
 .nav-link {
   font-weight: 600;
-  text-transform: uppercase;
   margin-right: 10px;
   margin-left: 10px;
   padding: 8px 20px;
@@ -34,4 +41,17 @@ body {
 .MuiOutlinedInput-input-root.Mui-focused,
 .MuiOutlinedInput-notchedOutline {
   border-color: rgb(196, 144, 251) !important;
+}
+
+.rotate {
+  animation: rotation 8s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }

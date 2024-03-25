@@ -3,8 +3,9 @@ import { useAuth } from "../context/AuthContext";
 import { red } from "@mui/material/colors";
 import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from "react-icons/io";
-import { useRef, useState } from "react";
-import { sendChatRequest } from "../helpers/api.communicator";
+import { useLayoutEffect, useRef, useState } from "react";
+import { getUserChats, sendChatRequest } from "../helpers/api.communicator";
+import { toast } from "react-toastify";
 
 type Message = {
   role: "user" | "assistant";
@@ -24,8 +25,26 @@ const Chat = () => {
     const newMessages: Message = { role: "user", content };
     setChatMessages((prev) => [...prev, newMessages]);
     const chatData = await sendChatRequest(content);
-    setChatMessages([...chatData.chats])
+    setChatMessages([...chatData.chats]);
   };
+
+  useLayoutEffect(() => {
+    if (auth?.isLoggedIn && auth.user) {
+      getUserChats()
+        .then((data) => {
+          toast.loading("Loading Chat History");
+          toast.dismiss();
+          setChatMessages([...data.chats]);
+          toast.success("Chat History Loaded Successfully", {
+            autoClose: 2000,
+          });
+        })
+        .catch((error) => {
+          toast.error("Error Loading Chat History", { autoClose: 2000 });
+          console.error(error);
+        });
+    }
+  }, [auth]);
   return (
     <Box
       sx={{

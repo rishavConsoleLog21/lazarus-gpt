@@ -38,6 +38,15 @@ body {
   letter-spacing: 1px;
 }
 
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-top: 5;
+}
+
 .MuiOutlinedInput-input-root.Mui-focused,
 .MuiOutlinedInput-notchedOutline {
   border-color: rgb(196, 144, 251) !important;

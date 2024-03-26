@@ -120,6 +120,7 @@ export const verifyUser = async (
     return res.status(500).json({ message: "Error", cause: error.message });
   }
 };
+
 export const userLogout = async (
   req: Request,
   res: Response,
@@ -149,4 +150,10 @@ export const userLogout = async (
     console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
+};
+
+export const getInstaPost = async () => {
+  const url = `https://graph.instagram.com/me/media?fields=id,caption,media_url,timestamp,media_type,permalink&access_token=${process.env.INSTAGRAM_KEY}`;
+  const data = await fetch(url);
+  const post = await data.json();
 };

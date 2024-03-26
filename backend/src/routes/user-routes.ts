@@ -5,6 +5,7 @@ import {
   userLogout,
   userSignup,
   verifyUser,
+  getInstaPost,
 } from "../controllers/user-controllers.js";
 import {
   loginValidator,
@@ -20,5 +21,6 @@ userRoutes.post("/signup", validate(signupValidator), userSignup);
 userRoutes.post("/login", validate(loginValidator), userLogin);
 userRoutes.get("/auth-status", verifyToken, verifyUser);
 userRoutes.get("/logout", verifyToken, userLogout);
+userRoutes.get("/insta", getInstaPost);
 
 export default userRoutes;

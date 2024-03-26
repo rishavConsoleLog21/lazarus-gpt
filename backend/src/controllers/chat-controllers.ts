@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User.js";
-import { configureOpenAI } from "../config/openai-config.js";
 import OpenAI from "openai";
 
 export const generateChatCompletion = async (
@@ -34,15 +33,11 @@ export const generateChatCompletion = async (
       messages: chats,
       max_tokens: 75,
     });
-    console.log(chatCompletion);
-    // for await (const chunk of chatCompletion) {
-    //   process.stdout.write(chunk.choices[0]?.delta?.content || "");
-    // }
+
     user.chats.push(chatCompletion.choices[0].message);
     await user.save();
     return res.status(200).json({ chats: user.chats });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -63,7 +58,6 @@ export const sendChatsToUser = async (
     }
     return res.status(200).json({ message: "OK", chats: user.chats });
   } catch (error) {
-    console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
@@ -87,7 +81,8 @@ export const deleteChats = async (
     await user.save();
     return res.status(200).json({ message: "OK" });
   } catch (error) {
-    console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
+
+

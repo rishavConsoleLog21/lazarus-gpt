@@ -28,10 +28,9 @@ export const generateChatCompletion = async (
     });
 
     const chatCompletion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4-turbo-preview",
       //@ts-expect-error
-      messages: chats,
-      max_tokens: 75,
+      messages: chats
     });
 
     user.chats.push(chatCompletion.choices[0].message);

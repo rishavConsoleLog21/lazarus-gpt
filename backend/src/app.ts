@@ -9,7 +9,7 @@ import cors from "cors";
 config();
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "https://lazarus-gpt.vercel.app/", credentials: true }));
 
 // Parse incoming JSON requests
 app.use(express.json());

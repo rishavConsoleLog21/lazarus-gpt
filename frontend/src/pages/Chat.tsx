@@ -8,7 +8,7 @@ import {
   deleteUserChats,
   getUserChats,
   sendChatRequest,
-} from "../helpers/api.communicator";
+} from "../helpers/api-communicator";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -118,7 +118,7 @@ const Chat = () => {
             }}
           >
             {auth?.user?.name[0]}
-            {auth?.user?.name.split(" ")[1][0]}
+            {/* {auth?.user?.name.split(" ")[1][0]} */}
           </Avatar>
           <Typography sx={{ mx: "auto", fontFamily: "sans-serif" }}>
             Lazarus Assistant is here to help you.

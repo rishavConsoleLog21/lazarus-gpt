@@ -6,7 +6,6 @@ import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import Chat from "./pages/Chat";
 import { useAuth } from "./context/AuthContext";
-import InstaPost from "./pages/InstaPost";
 
 function App() {
   const auth = useAuth();
@@ -20,7 +19,6 @@ function App() {
         {auth?.isLoggedIn && auth.user && (
           <Route path="/chat" element={<Chat />} />
         )}
-        <Route path="/insta" element={<InstaPost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>

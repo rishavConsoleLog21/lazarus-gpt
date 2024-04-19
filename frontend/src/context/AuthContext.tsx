@@ -21,7 +21,7 @@ type UserAuth = {
   isLoggedIn: boolean;
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  singup: (name: string, email: string, password: string) => Promise<void>;
+  signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -73,7 +73,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     logout,
     signup,
   };
-  //@ts-ignore
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 export const useAuth = () => useContext(AuthContext);

@@ -19,7 +19,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Log requests to the console
 // Remove this middleware for production
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 
 app.use("/api/v1", appRouter);
 
